@@ -10,7 +10,6 @@ MESSAGE("Build type: " ${CMAKE_BUILD_TYPE})
 
 # Set your path of packages.
 # If cmake cannot find opencv or eigen3, try to set the path manually as following.
-set(Torch_DIR "/home/deng/SP_SLAM/Thirdparty/libtorch/share/cmake/Torch")  # libtorch
 # set(OpenCV_DIR "/usr/share/OpenCV")   # opencv
 # set(Eigen3_DIR "/usr/lib/cmake/eigen3")    # eigen3
 
@@ -49,14 +48,12 @@ endif()
 
 find_package(Eigen3 3.1.0 REQUIRED)
 find_package(Pangolin REQUIRED)
-find_package(Torch REQUIRED)
 
 include_directories(
 ${PROJECT_SOURCE_DIR}
 ${PROJECT_SOURCE_DIR}/include
 ${EIGEN3_INCLUDE_DIR}
 ${Pangolin_INCLUDE_DIRS}
-# ${PROJECT_SOURCE_DIR}/Thirdparty/libtorch/include
 )
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
@@ -72,7 +69,6 @@ src/LoopClosing.cc
 
 src/SPextractor.cc
 src/SPmatcher.cc
-src/SuperPoint.cc
 
 src/FrameDrawer.cc
 src/Converter.cc
@@ -90,7 +86,6 @@ src/Viewer.cc
 )
 
 target_link_libraries(${PROJECT_NAME}
-${TORCH_LIBRARIES}
 ${OpenCV_LIBS}
 ${EIGEN3_LIBS}
 ${Pangolin_LIBRARIES}
@@ -130,4 +125,8 @@ target_link_libraries(mono_kitti ${PROJECT_NAME})
 add_executable(mono_euroc
 Examples/Monocular/mono_euroc.cc)
 target_link_libraries(mono_euroc ${PROJECT_NAME})
+
+add_executable(mono_vivid
+Examples/Monocular/mono_vivid.cc)
+target_link_libraries(mono_vivid ${PROJECT_NAME})
 

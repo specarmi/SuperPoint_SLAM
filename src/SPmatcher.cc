@@ -34,8 +34,8 @@ using namespace std;
 namespace ORB_SLAM2
 {
  
-const float SPmatcher::TH_HIGH = 0.70;
-const float SPmatcher::TH_LOW = 0.30;
+const float SPmatcher::TH_HIGH = 2.0;
+const float SPmatcher::TH_LOW = 1.2;
 const int SPmatcher::HISTO_LENGTH = 30;
 
 SPmatcher::SPmatcher(float nnratio, bool checkOri): mfNNratio(nnratio), mbCheckOrientation(checkOri)
