@@ -407,9 +407,9 @@ namespace ORB_SLAM2
             };
 
     ORBextractor::ORBextractor(int _nfeatures, float _scaleFactor, int _nlevels,
-                               int _iniThFAST, int _minThFAST):
+                               int _iniThFAST, int _minThFAST, const std::string &_strFeaturePath):
             nfeatures(_nfeatures), scaleFactor(_scaleFactor), nlevels(_nlevels),
-            iniThFAST(_iniThFAST), minThFAST(_minThFAST), image_count(1)
+            iniThFAST(_iniThFAST), minThFAST(_minThFAST), image_count(1), strFeaturePath(_strFeaturePath)
     {
         mvScaleFactor.resize(nlevels);
         mvLevelSigma2.resize(nlevels);
@@ -1070,9 +1070,7 @@ namespace ORB_SLAM2
                                   OutputArray _descriptors)
     {
         stringstream ss;
-        //ss << "../datasets/FLIR_ADAS/train/RGB_Keypoints_and_Descriptors/" << image_count << ".yaml";
-        ss << "../datasets/kitti/data_odometry_gray/dataset/sequences/03/RGB_Feat_and_Descriptors/" << image_count << ".yaml";
-        cout << "../datasets/kitti/data_odometry_gray/dataset/sequences/03/RGB_Feat_and_Descriptors/" << endl;
+        ss << strFeaturePath << image_count << ".yaml";
         cv::FileStorage pts_log(ss.str(), cv::FileStorage::READ);
 
         cv::Mat keypoints;
@@ -1082,10 +1080,6 @@ namespace ORB_SLAM2
         {
             const float *kp_ptr = keypoints.row(i).ptr<float>(0);
             _keypoints[i] = cv::KeyPoint(kp_ptr[0], kp_ptr[1], 1.0, -1.0, kp_ptr[2], 0, -1);
-            //if(i == 0)
-            //{
-            //    cout << _keypoints[i].pt.x << ", " << _keypoints[i].pt.y << ", " << _keypoints[i].response << endl;
-            //}
         }
 
         _descriptors.create(keypoints.rows, 256, CV_32F);
