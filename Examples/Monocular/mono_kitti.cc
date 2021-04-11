@@ -50,10 +50,16 @@ int main(int argc, char **argv)
 
     int nImages = vstrImageFilenames.size();
 
+    // Determine the frame rate
+    double init_time = vTimestamps.front();
+    double end_time = vTimestamps.back();
+    int frame_rate = round(double(vTimestamps.size()) / (end_time - init_time));
+    cout << "Estimated frame rate " << frame_rate << endl;
+
     cout << "Creating orb-slam system ..." << endl;
 
     // Create SLAM system. It initializes all system threads and gets ready to process frames.
-    ORB_SLAM2::System SLAM(argv[1],argv[2],ORB_SLAM2::System::MONOCULAR,argv[4],true);
+    ORB_SLAM2::System SLAM(argv[1],argv[2],ORB_SLAM2::System::MONOCULAR,argv[4],frame_rate,true);
 
     // Vector for tracking time statistics
     vector<float> vTimesTrack;

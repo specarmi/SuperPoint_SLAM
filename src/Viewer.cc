@@ -26,16 +26,16 @@
 namespace ORB_SLAM2
 {
 
-Viewer::Viewer(System* pSystem, FrameDrawer *pFrameDrawer, MapDrawer *pMapDrawer, Tracking *pTracking, const string &strSettingPath):
+Viewer::Viewer(System* pSystem, FrameDrawer *pFrameDrawer, MapDrawer *pMapDrawer, Tracking *pTracking, const string &strSettingPath, const int frame_rate):
     mpSystem(pSystem), mpFrameDrawer(pFrameDrawer),mpMapDrawer(pMapDrawer), mpTracker(pTracking),
     mbFinishRequested(false), mbFinished(true), mbStopped(true), mbStopRequested(false)
 {
     cv::FileStorage fSettings(strSettingPath, cv::FileStorage::READ);
 
-    float fps = fSettings["Camera.fps"];
+    int fps = frame_rate;
     if(fps<1)
         fps=30;
-    mT = 1e3/fps;
+    mT = 1e3/double(fps);
 
     mImageWidth = fSettings["Camera.width"];
     mImageHeight = fSettings["Camera.height"];
